@@ -17,26 +17,33 @@ import java.util.UUID;
 
 public abstract class BaseRemoteService {
     protected JSONObject requestSingle(PathElementInterface[] pathElements, UUID id) {
-        JSONObject jsonObject = null;
+        URL connectionUrl = this.buildPath(pathElements, id.toString());
+        String rawResponse = this.performGetRequest(connectionUrl);
+
+        return this.rawResponseToJSONObject(rawResponse);
+    }
+
+    private String performGetRequest(URL connectionUrl) {
+        if (connectionUrl == null) {
+            return StringUtils.EMPTY;
+        }
+
         HttpURLConnection httpURLConnection = null;
         StringBuilder rawResponse = new StringBuilder();
 
         try {
-            httpURLConnection = (HttpURLConnection) this.buildPath(pathElements, id.toString()).openConnection();
-            httpURLConnection.setRequestMethod("GET");
-            httpURLConnection.addRequestProperty("Accept", "application/json");
+            httpURLConnection = (HttpURLConnection) connectionUrl.openConnection();
+            httpURLConnection.setRequestMethod(GET_REQUEST_METHOD);
+            httpURLConnection.addRequestProperty(ACCEPT_REQUEST_PROPERTY, JSON_PAYLOAD_TYPE);
 
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
 
             char[] buffer = new char[1024];
             int readCharacters = bufferedReader.read(buffer, 0, buffer.length);
-
             while (readCharacters > 0) {
                 rawResponse.append(buffer, 0, readCharacters);
                 readCharacters = bufferedReader.read(buffer, 0, buffer.length);
             }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (ProtocolException e) {
             e.printStackTrace();
         } catch (IOException e){
@@ -47,7 +54,13 @@ public abstract class BaseRemoteService {
             }
         }
 
-        if (rawResponse.length() > 0) {
+        return rawResponse.toString();
+    }
+
+    private JSONObject rawResponseToJSONObject(String rawResponse) {
+        JSONObject jsonObject = null;
+
+        if (!StringUtils.isBlank(rawResponse)) {
             try {
                 jsonObject = new JSONObject(new JSONTokener(rawResponse.toString()));
             } catch (JSONException e) {
@@ -58,11 +71,11 @@ public abstract class BaseRemoteService {
         return jsonObject;
     }
 
-    private URL buildPath(PathElementInterface[] pathElements) throws MalformedURLException {
+    private URL buildPath(PathElementInterface[] pathElements) {
         return this.buildPath(pathElements, StringUtils.EMPTY);
     }
 
-    private URL buildPath(PathElementInterface[] pathElements, String specificationEntry) throws MalformedURLException {
+    private URL buildPath(PathElementInterface[] pathElements, String specificationEntry) {
         StringBuilder completePath = new StringBuilder(BASE_URL);
 
         for (PathElementInterface pathElement : pathElements) {
@@ -77,9 +90,22 @@ public abstract class BaseRemoteService {
             completePath.append(specificationEntry);
         }
 
-        return new URL(completePath.toString());
+        URL connectionUrl;
+        try {
+            connectionUrl = new URL(completePath.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            connectionUrl = null;
+        }
+
+        return connectionUrl;
     }
 
     private static final String URL_JOIN = "/";
+    private static final String GET_REQUEST_METHOD = "GET";
+    private static final String PUT_REQUEST_METHOD = "PUT";
+    private static final String ACCEPT_REQUEST_PROPERTY = "Accept";
+    private static final String JSON_PAYLOAD_TYPE = "application/json";
+    private static final String CONTENT_TYPE_REQUEST_PROPERTY = "Content-Type";
     private static final String BASE_URL = "http://192.168.1.79:4568/npctest/";
 }

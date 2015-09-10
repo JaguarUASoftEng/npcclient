@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Test</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="edit_message">Enter some text</string>
+    <string name="button_send">Send</string>
+    <string name="product_id_extras_key">org.npc.test.ProductIdExtrasKey</string>
+    <string name="title_activity_product_details">Product Details</string>
+</resources>

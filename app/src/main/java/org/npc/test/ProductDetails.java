@@ -1,11 +1,13 @@
 package org.npc.test;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.npc.test.api.enums.ProductApiRequestStatus;
 import org.npc.test.api.models.Product;
 import org.npc.test.api.services.ProductService;
 
@@ -29,8 +31,7 @@ public class ProductDetails extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        Product product = (new ProductService()).getProduct(UUID.fromString("0d15fd4b-7255-4b0b-95d4-ee3d4d757c4a"));
-        this.getLookupCodeTextView().setText(product.getLookupCode());
+        (new RetrieveProductTask()).execute(UUID.fromString("69122437-5b8e-433b-b87a-9cf9e56679e8"));
     }
 
     @Override
@@ -53,5 +54,19 @@ public class ProductDetails extends AppCompatActivity {
     }
     private TextView getLookupCodeTextView() {
         return (TextView) this.findViewById(R.id.product_lookup_code_text_view);
+    }
+
+    private class RetrieveProductTask extends AsyncTask<UUID, Void, Product> {
+        protected Product doInBackground(UUID... productIds) {
+            return (new ProductService()).getProduct(productIds[0]);
+        }
+
+        protected void onPostExecute(Product result) {
+            if (result.getApiRequestStatus() == ProductApiRequestStatus.OK) {
+                getLookupCodeTextView().setText(result.getLookupCode());
+            } else {
+                getLookupCodeTextView().setText(result.getApiRequestStatus().name());
+            }
+        }
     }
 }

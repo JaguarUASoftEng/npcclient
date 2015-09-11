@@ -1,7 +1,5 @@
 package org.npc.test.api.services;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.npc.test.api.enums.ApiLevel;
 import org.npc.test.api.enums.ProductApiMethod;
@@ -11,7 +9,6 @@ import org.npc.test.api.models.Product;
 import org.npc.test.api.models.ProductListing;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,7 +28,7 @@ public class ProductService extends BaseRemoteService {
     public List<Product> getProducts() {
         List<Product> products;
         JSONObject rawJsonObject = this.requestSingle(
-            (new PathElementInterface[]{ ApiLevel.ONE, ProductApiMethod.PRODUCTS })
+            (new PathElementInterface[] { ApiLevel.ONE, ProductApiMethod.PRODUCTS })
         );
 
         if (rawJsonObject != null) {

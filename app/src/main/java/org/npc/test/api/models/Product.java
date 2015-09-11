@@ -119,7 +119,7 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
             e.printStackTrace();
         }
 
-        return new JSONObject();
+        return jsonObject;
     }
 
     public Product() {

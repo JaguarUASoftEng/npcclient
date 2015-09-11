@@ -1,11 +1,12 @@
 package org.npc.test;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.npc.test.adapters.ProductListAdapter;
@@ -15,15 +16,27 @@ import org.npc.test.api.services.ProductService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductsList extends ListActivity {
+public class ProductsList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products_list);
 
-        products = new ArrayList<>();
-        productListAdapter = new ProductListAdapter(this, products);
-        this.getListView().setAdapter(productListAdapter);
+        this.products = new ArrayList<>();
+        this.productListAdapter = new ProductListAdapter(this, this.products);
+
+        this.getProductsListView().setAdapter(this.productListAdapter);
+        this.getProductsListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), ProductDetails.class);
+                Product selectedProduct = (Product) getProductsListView().getItemAtPosition(position);
+
+                intent.putExtra(getString(R.string.product_id_extras_key), selectedProduct.getId().toString());
+
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -48,14 +61,8 @@ public class ProductsList extends ListActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        Intent intent = new Intent(this, ProductDetails.class);
-        Product selectedProduct = (Product) l.getItemAtPosition(position);
-
-        intent.putExtra(this.getString(R.string.product_id_extras_key), selectedProduct.getId().toString());
-
-        this.startActivity(intent);
+    private ListView getProductsListView() {
+        return (ListView) this.findViewById(R.id.products_list_view);
     }
 
     private List<Product> products;

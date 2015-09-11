@@ -19,7 +19,7 @@ public class ProductDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
 
-        productId = UUID.fromString(
+        this.productId = UUID.fromString(
             this.getIntent().getStringExtra(
                 this.getResources().getString(R.string.product_id_extras_key)
             )
@@ -27,8 +27,8 @@ public class ProductDetails extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
 
         (new RetrieveProductTask()).execute(this.productId);
     }
@@ -48,9 +48,6 @@ public class ProductDetails extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private TextView getMessageTextView() {
-        return (TextView) this.findViewById(R.id.product_details_message_text_view);
-    }
     private TextView getLookupCodeTextView() {
         return (TextView) this.findViewById(R.id.product_lookup_code_text_view);
     }

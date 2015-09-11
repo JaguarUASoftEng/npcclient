@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.npc.test" >
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -25,6 +25,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.npc.test.TestActivity" />
+        </activity>
+        <activity
+            android:name=".ProductsList"
+            android:label="@string/title_activity_products_list" >
+        </activity>
+        <activity
+            android:name=".CreateProduct"
+            android:label="@string/title_activity_create_product" >
         </activity>
     </application>
 

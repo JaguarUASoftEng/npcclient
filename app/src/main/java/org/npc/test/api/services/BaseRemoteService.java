@@ -17,8 +17,16 @@ import java.net.URL;
 import java.util.UUID;
 
 public abstract class BaseRemoteService {
+    protected JSONObject requestSingle(PathElementInterface[] pathElements) {
+        return this.requestSingle(pathElements, StringUtils.EMPTY);
+    }
+
     protected JSONObject requestSingle(PathElementInterface[] pathElements, UUID id) {
-        URL connectionUrl = this.buildPath(pathElements, id.toString());
+        return this.requestSingle(pathElements, id.toString());
+    }
+
+    protected JSONObject requestSingle(PathElementInterface[] pathElements, String value) {
+        URL connectionUrl = this.buildPath(pathElements, value);
         String rawResponse = this.performGetRequest(connectionUrl);
 
         return this.rawResponseToJSONObject(rawResponse);

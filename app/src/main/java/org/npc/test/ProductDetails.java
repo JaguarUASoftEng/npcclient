@@ -1,9 +1,8 @@
 package org.npc.test;
 
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -20,7 +19,7 @@ public class ProductDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
 
-        this.getMessageTextView().setText(
+        productId = UUID.fromString(
             this.getIntent().getStringExtra(
                 this.getResources().getString(R.string.product_id_extras_key)
             )
@@ -31,7 +30,7 @@ public class ProductDetails extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        (new RetrieveProductTask()).execute(UUID.fromString("69122437-5b8e-433b-b87a-9cf9e56679e8"));
+        (new RetrieveProductTask()).execute(this.productId);
     }
 
     @Override
@@ -55,6 +54,8 @@ public class ProductDetails extends AppCompatActivity {
     private TextView getLookupCodeTextView() {
         return (TextView) this.findViewById(R.id.product_lookup_code_text_view);
     }
+
+    private UUID productId;
 
     private class RetrieveProductTask extends AsyncTask<UUID, Void, Product> {
         protected Product doInBackground(UUID... productIds) {

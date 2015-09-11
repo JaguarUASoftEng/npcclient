@@ -8,8 +8,11 @@ import org.npc.test.api.enums.ProductApiMethod;
 import org.npc.test.api.enums.ProductApiRequestStatus;
 import org.npc.test.api.interfaces.PathElementInterface;
 import org.npc.test.api.models.Product;
+import org.npc.test.api.models.ProductListing;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 public class ProductService extends BaseRemoteService {
@@ -25,22 +28,16 @@ public class ProductService extends BaseRemoteService {
         }
     }
 
-    public LinkedList<Product> getProducts() {
-        LinkedList<Product> products = new LinkedList<Product>();
-        JSONArray rawJsonArray = this.requestMany(
-                (new PathElementInterface[]{ApiLevel.ONE, ProductApiMethod.PRODUCT})
+    public List<Product> getProducts() {
+        List<Product> products;
+        JSONObject rawJsonObject = this.requestSingle(
+            (new PathElementInterface[]{ ApiLevel.ONE, ProductApiMethod.PRODUCTS })
         );
 
-        try {
-            for (int i = 0; i < rawJsonArray.length(); i++) {
-                JSONObject rawJsonObject = rawJsonArray.getJSONObject(i);
-
-                if (rawJsonObject != null) {
-                    products.add((new Product()).loadFromJson(rawJsonObject));
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (rawJsonObject != null) {
+            products = (new ProductListing()).loadFromJson(rawJsonObject).getProducts();
+        } else {
+            products = new ArrayList<Product>(0);
         }
 
         return products;

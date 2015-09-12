@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.npc.test.api.enums.ProductApiRequestStatus;
 import org.npc.test.api.interfaces.ConvertToJsonInterface;
@@ -87,7 +88,7 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
         value = rawJsonObject.optString(ProductFieldNames.CREATED_ON);
         if (!StringUtils.isBlank(value)) {
             try {
-                this.createdOn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.zzzzzz").parse(value);
+                this.createdOn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse(value);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -105,7 +106,20 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
 
     @Override
     public JSONObject convertToJson() {
-        return new JSONObject();
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            jsonObject.put(ProductFieldNames.ID, this.id.toString());
+            jsonObject.put(ProductFieldNames.LOOKUP_CODE, this.lookupCode);
+            jsonObject.put(ProductFieldNames.COUNT, Integer.toString(this.count));
+            jsonObject.put(ProductFieldNames.CREATED_ON, (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")).format(this.createdOn));
+            jsonObject.put(ProductFieldNames.API_REQUEST_MESSAGE, this.apiRequestMessage);
+            jsonObject.put(ProductFieldNames.API_REQUEST_STATUS, this.apiRequestStatus.name());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return jsonObject;
     }
 
     public Product() {

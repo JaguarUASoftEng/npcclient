@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.EditText;
 
 public class TestActivity extends AppCompatActivity {
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,16 +37,15 @@ public class TestActivity extends AppCompatActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void sendButtonOnClick(View view) {
-		Intent intent = new Intent(this, ProductDetails.class);
-
-		intent.putExtra(
-				this.getResources().getString(R.string.product_id_extras_key),
-				this.getMessageEditText().getText().toString());
-		this.startActivity(intent);
+	public void viewProductsButtonOnClick(View view) {
+		this.startActivity(
+			new Intent(this, ProductsList.class)
+		);
 	}
 
-	private EditText getMessageEditText() {
-		return (EditText) this.findViewById(R.id.edit_message);
+	public void createProductButtonOnClick(View view) {
+		this.startActivity(
+			new Intent(this, CreateProduct.class)
+		);
 	}
 }

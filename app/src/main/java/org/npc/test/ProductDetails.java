@@ -1,11 +1,12 @@
 package org.npc.test;
 
-import android.support.v7.app.AppCompatActivity;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.npc.test.api.enums.ProductApiRequestStatus;
 import org.npc.test.api.models.Product;
 import org.npc.test.api.services.ProductService;
 
@@ -18,7 +19,7 @@ public class ProductDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
 
-        this.getMessageTextView().setText(
+        this.productId = UUID.fromString(
             this.getIntent().getStringExtra(
                 this.getResources().getString(R.string.product_id_extras_key)
             )
@@ -26,11 +27,10 @@ public class ProductDetails extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
 
-        Product product = (new ProductService()).getProduct(UUID.fromString("0d15fd4b-7255-4b0b-95d4-ee3d4d757c4a"));
-        this.getLookupCodeTextView().setText(product.getLookupCode());
+        (new RetrieveProductTask()).execute(this.productId);
     }
 
     @Override
@@ -48,10 +48,23 @@ public class ProductDetails extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private TextView getMessageTextView() {
-        return (TextView) this.findViewById(R.id.product_details_message_text_view);
-    }
     private TextView getLookupCodeTextView() {
         return (TextView) this.findViewById(R.id.product_lookup_code_text_view);
+    }
+
+    private UUID productId;
+
+    private class RetrieveProductTask extends AsyncTask<UUID, Void, Product> {
+        protected Product doInBackground(UUID... productIds) {
+            return (new ProductService()).getProduct(productIds[0]);
+        }
+
+        protected void onPostExecute(Product result) {
+            if (result.getApiRequestStatus() == ProductApiRequestStatus.OK) {
+                getLookupCodeTextView().setText(result.getLookupCode());
+            } else {
+                getLookupCodeTextView().setText(result.getApiRequestStatus().name());
+            }
+        }
     }
 }

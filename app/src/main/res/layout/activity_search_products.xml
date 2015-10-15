@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top"
             android:text="@string/button_search_products"
-            android:onClick="createProductButtonOnClick"/>
+            android:onClick="searchProductButtonOnClick"/>
     </LinearLayout>
 
 </LinearLayout>

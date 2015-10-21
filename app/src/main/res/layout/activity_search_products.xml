@@ -14,12 +14,12 @@
         android:weightSum="1"
         android:baselineAligned="false">
 
-        <SearchView
-            android:layout_width="297dp"
+        <EditText
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/searchView"
+            android:id="@+id/editText"
             android:layout_gravity="bottom"
-            android:iconifiedByDefault="false" />
+            android:inputType="text" />
     </LinearLayout>
 
     <LinearLayout

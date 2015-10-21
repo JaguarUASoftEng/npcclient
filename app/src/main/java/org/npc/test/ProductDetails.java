@@ -52,6 +52,26 @@ public class ProductDetails extends AppCompatActivity {
         return (TextView) this.findViewById(R.id.product_lookup_code_text_view);
     }
 
+    private TextView getDescriptionTextView()
+    {
+        return (TextView) this.findViewById(R.id.product_description_text_view);
+    }
+
+    private TextView getPriceTextView()
+    {
+        return (TextView) this.findViewById(R.id.product_price_text_view);
+    }
+
+    private TextView getQuantityTextView()
+    {
+        return (TextView) this.findViewById(R.id.product_quantity_text_view);
+    }
+
+    private TextView getIsActiveTextView()
+    {
+        return (TextView) this.findViewById(R.id.product_isActive_text_view);
+    }
+
     private UUID productId;
 
     private class RetrieveProductTask extends AsyncTask<UUID, Void, Product> {

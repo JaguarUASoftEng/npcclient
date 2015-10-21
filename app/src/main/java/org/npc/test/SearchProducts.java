@@ -19,6 +19,6 @@ public class SearchProducts extends AppCompatActivity {
         Intent intent = new Intent(this, ProductDetails.class);
         EditText searchBox = (EditText) this.findViewById(R.id.editText);
         String query = searchBox.getText().toString();
-        this.startActivity(intent.putExtra("org.npc.test.ProductIdExtrasKey", query));
+        this.startActivity(intent.putExtra(this.getResources().getString(R.string.product_id_extras_key), query));
     }
 }

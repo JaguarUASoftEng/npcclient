@@ -19,12 +19,18 @@
             android:onClick="viewProductsButtonOnClick"/>
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Search Products"
-        android:onClick="searchProductButtonOnClick"
-        android:layout_gravity="center_horizontal" />
+        android:gravity="center_horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_search_products"
+            android:onClick="searchProductButtonOnClick"
+            android:layout_gravity="bottom" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -10,8 +10,6 @@ import org.npc.test.api.enums.ProductApiRequestStatus;
 import org.npc.test.api.models.Product;
 import org.npc.test.api.services.ProductService;
 
-import java.util.UUID;
-
 public class ProductDetails extends AppCompatActivity {
 
     @Override
@@ -19,10 +17,9 @@ public class ProductDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
 
-        this.productId = UUID.fromString(
+        this.productLookupCode =
             this.getIntent().getStringExtra(
                 this.getResources().getString(R.string.product_id_extras_key)
-            )
         );
     }
 
@@ -30,7 +27,7 @@ public class ProductDetails extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        (new RetrieveProductTask()).execute(this.productId);
+        (new RetrieveProductTask()).execute(this.productLookupCode);
     }
 
     @Override
@@ -72,16 +69,20 @@ public class ProductDetails extends AppCompatActivity {
         return (TextView) this.findViewById(R.id.product_isActive_text_view);
     }
 
-    private UUID productId;
+    private String productLookupCode;
 
-    private class RetrieveProductTask extends AsyncTask<UUID, Void, Product> {
-        protected Product doInBackground(UUID... productIds) {
-            return (new ProductService()).getProduct(productIds[0]);
+    private class RetrieveProductTask extends AsyncTask<String, Void, Product> {
+        protected Product doInBackground(String... productLookupCodes) {
+            return (new ProductService()).getProduct(productLookupCodes[0]);
         }
 
         protected void onPostExecute(Product result) {
             if (result.getApiRequestStatus() == ProductApiRequestStatus.OK) {
                 getLookupCodeTextView().setText(result.getLookupCode());
+                getDescriptionTextView().setText(result.getDescription());
+                getPriceTextView().setText(result.getPrice());
+                getQuantityTextView().setText(result.getCount());
+                getIsActiveTextView().setText(result.getIsActive());
             } else {
                 getLookupCodeTextView().setText(result.getApiRequestStatus().name());
             }

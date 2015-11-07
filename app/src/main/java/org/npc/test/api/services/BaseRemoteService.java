@@ -167,5 +167,5 @@ public abstract class BaseRemoteService {
     private static final String ACCEPT_REQUEST_PROPERTY = "Accept";
     private static final String JSON_PAYLOAD_TYPE = "application/json";
     private static final String CONTENT_TYPE_REQUEST_PROPERTY = "Content-Type";
-    private static final String BASE_URL = "localhost:8080/test/";
+    private static final String BASE_URL = "localhost:8080/com.npc.registerservice/";
 }

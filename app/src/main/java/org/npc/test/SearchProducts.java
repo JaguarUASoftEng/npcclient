@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
 
+import org.npc.test.adapters.ProductListAdapter;
+
 public class SearchProducts extends AppCompatActivity {
 
     @Override
@@ -24,10 +26,15 @@ public class SearchProducts extends AppCompatActivity {
         this.startActivity(intent.putExtra(this.getResources().getString(R.string.product_id_extras_key), query));
     }
 
-    public void updateProductList()
+    public void updateProductList(transactionDTO trans)
     {
         ListView list = (ListView) this.findViewById(R.id.products_list_view);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, list, myStringArray);
+        ProductListAdapter adapter = new ProductListAdapter(this,trans.getProducts());
         list.setAdapter(adapter);
+    }
+
+    public void addProduct(TransactionDTO trans, Product p, int q)
+    {
+        trans.addProduct();
     }
 }

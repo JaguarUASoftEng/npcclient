@@ -6,8 +6,8 @@ import android.view.View;
 import android.content.Intent;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ArrayAdapter;
-
+import org.npc.test.api.models.Transaction;
+import org.npc.test.api.models.Product;
 import org.npc.test.adapters.ProductListAdapter;
 
 public class SearchProducts extends AppCompatActivity {
@@ -26,15 +26,15 @@ public class SearchProducts extends AppCompatActivity {
         this.startActivity(intent.putExtra(this.getResources().getString(R.string.product_id_extras_key), query));
     }
 
-    public void updateProductList(transactionDTO trans)
+    public void updateProductList(Transaction transaction)
     {
         ListView list = (ListView) this.findViewById(R.id.products_list_view);
-        ProductListAdapter adapter = new ProductListAdapter(this,trans.getProducts());
+        ProductListAdapter adapter = new ProductListAdapter(this, transaction.getProducts());
         list.setAdapter(adapter);
     }
 
-    public void addProduct(TransactionDTO trans, Product p, int q)
+    public void addProduct(Transaction transaction, Product p, int q)
     {
-        trans.addProduct();
+        transaction.addProduct(p);
     }
 }

@@ -33,6 +33,31 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
         return this;
     }
 
+    private String description;
+    public String getDiscription() {return this.description;}
+    public Product setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    private boolean isActive;
+    public boolean getIsActive() {
+        return this.isActive;
+    }
+    public Product setIsActive(boolean isActive) {
+        this.isActive = isActive;
+        return this;
+    }
+
+    private Double Price;
+    public Double getPrice() {
+        return this.Price;
+    }
+    public Product setPrice(Double Price) {
+        this.Price = Price;
+        return this;
+    }
+
     private int count;
     public int getCount() {
         return this.count;

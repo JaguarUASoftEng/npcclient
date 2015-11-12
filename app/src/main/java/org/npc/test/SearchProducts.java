@@ -18,12 +18,24 @@ public class SearchProducts extends AppCompatActivity {
         setContentView(R.layout.activity_search_products);
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == UPDATE_PRODUCTS)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                transaction = data.getParcelableExtra();
+                this.updateProductList(transaction);
+
+            }
+        }
+    }
     public void searchProductButtonOnClick(View view)
     {
         Intent intent = new Intent(this, ProductDetails.class);
         EditText searchBox = (EditText) this.findViewById(R.id.productSearchBox);
         String query = searchBox.getText().toString();
-        this.startActivity(intent.putExtra(this.getResources().getString(R.string.product_id_extras_key), query));
+        this.startActivityForResult(intent.putExtra(this.getResources().getString(R.string.product_id_extras_key), query),UPDATE_PRODUCTS);
     }
 
     public void updateProductList(Transaction transaction)
@@ -31,10 +43,5 @@ public class SearchProducts extends AppCompatActivity {
         ListView list = (ListView) this.findViewById(R.id.products_list_view);
         ProductListAdapter adapter = new ProductListAdapter(this, transaction.getProducts());
         list.setAdapter(adapter);
-    }
-
-    public void addProduct(Transaction transaction, Product p, int q)
-    {
-        transaction.addProduct(p);
     }
 }

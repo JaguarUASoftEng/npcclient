@@ -34,7 +34,7 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
     }
 
     private String description;
-    public String getDiscription() {return this.description;}
+    public String getDescription() {return this.description;}
     public Product setDescription(String description) {
         this.description = description;
         return this;
@@ -49,12 +49,12 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
         return this;
     }
 
-    private Double Price;
+    private Double price;
     public Double getPrice() {
-        return this.Price;
+        return this.price;
     }
-    public Product setPrice(Double Price) {
-        this.Price = Price;
+    public Product setPrice(Double price) {
+        this.price = price;
         return this;
     }
 
@@ -107,13 +107,16 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
             this.id = UUID.fromString(value);
         }
 
+        this.description = rawJsonObject.optString(ProductFieldNames.DESCRIPTION);
         this.lookupCode = rawJsonObject.optString(ProductFieldNames.LOOKUP_CODE);
+        this.isActive = rawJsonObject.optBoolean(ProductFieldNames.IS_ACTIVE);
+        this.price = rawJsonObject.optDouble(ProductFieldNames.PRICE);
         this.count = rawJsonObject.optInt(ProductFieldNames.COUNT, -1);
 
         value = rawJsonObject.optString(ProductFieldNames.CREATED_ON);
         if (!StringUtils.isBlank(value)) {
             try {
-                this.createdOn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse(value);
+                this.createdOn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(value);
             } catch (ParseException e) {
                 e.printStackTrace();
             }

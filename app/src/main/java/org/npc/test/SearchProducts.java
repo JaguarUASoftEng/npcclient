@@ -7,11 +7,11 @@ import android.content.Intent;
 import android.widget.EditText;
 import android.widget.ListView;
 import org.npc.test.api.models.Transaction;
-import org.npc.test.api.models.Product;
 import org.npc.test.adapters.ProductListAdapter;
 
 public class SearchProducts extends AppCompatActivity {
 
+    static final int UPDATE_PRODUCTS = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

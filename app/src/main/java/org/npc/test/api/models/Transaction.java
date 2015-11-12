@@ -1,7 +1,9 @@
 package org.npc.test.api.models;
 
+import android.os.Parcelable;
+
 import java.util.ArrayList;
-public class Transaction
+public class Transaction implements Parcelable
 {
     private ArrayList<Product> products;
     private double total;

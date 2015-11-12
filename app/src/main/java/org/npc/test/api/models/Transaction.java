@@ -14,7 +14,7 @@ public class Transaction
 
     public ArrayList<Product> getProducts()
     {
-        return this.products;
+        return new ArrayList<Product>(this.products);
     }
 
     public void addProduct(Product product)

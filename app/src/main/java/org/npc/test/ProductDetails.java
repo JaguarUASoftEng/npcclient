@@ -80,9 +80,9 @@ public class ProductDetails extends AppCompatActivity {
             if (result.getApiRequestStatus() == ProductApiRequestStatus.OK) {
                 getLookupCodeTextView().setText(result.getLookupCode());
                 getDescriptionTextView().setText(result.getDescription());
-                getPriceTextView().setText(result.getPrice());
-                getQuantityTextView().setText(result.getCount());
-                getIsActiveTextView().setText(result.getIsActive());
+                getPriceTextView().setText(Double.toString(result.getPrice()));
+                getQuantityTextView().setText(Integer.toString(result.getCount()));
+                getIsActiveTextView().setText(Boolean.toString(result.getIsActive()));
             } else {
                 getLookupCodeTextView().setText(result.getApiRequestStatus().name());
             }

@@ -1,38 +1,52 @@
 package org.npc.test.api.models;
 
+import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
+
 public class Transaction implements Parcelable
 {
-    private ArrayList<Product> products;
+    private ProductListing products;
     private double total;
 
     public Transaction()
     {
-        this.products = new ArrayList<>();
+        this.products = new ProductListing();
         this.total = 0;
     }
 
-    public ArrayList<Product> getProducts()
+    private Transaction(Parcel in)
     {
-        return new ArrayList<Product>(this.products);
+        this.products = in.readTypedObject(ProductListing.CREATOR);
+        this.total = in.readDouble();
     }
 
-    public void addProduct(Product product)
+    public int describeContents()
     {
-        for (Product p : this.products)
-        {
-            if (product.getLookupCode().equals(p.getLookupCode()))
-            {
-                int count = p.getCount();
-                p.setCount(count++);
-            }
+        return 0;
+    }
 
-            else
-            {
-                products.add(product);
-            }
+    public void writeToParcel(Parcel out, int flags)
+    {
+        out.writeTypedObject(ProductListing.CREATOR, 0);
+        out.writeDouble(this.total);
+    }
+
+    public static final Parcelable.Creator<Transaction> CREATOR = new Parcelable.Creator<Transaction>()
+    {
+        public Transaction createFromParcel(Parcel in)
+        {
+            return new Transaction(in);
         }
+
+        public Transaction[] newArray(int size)
+        {
+            return new Transaction[size];
+        }
+    };
+
+    public ProductListing getProductListing()
+    {
+        return this.products;
     }
 }

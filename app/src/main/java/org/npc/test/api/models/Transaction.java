@@ -28,7 +28,7 @@ public class Transaction implements Parcelable
 
     public void writeToParcel(Parcel out, int flags)
     {
-        out.writeTypedObject(ProductListing.CREATOR, 0);
+        out.writeTypedObject(products, 0);
         out.writeDouble(this.total);
     }
 

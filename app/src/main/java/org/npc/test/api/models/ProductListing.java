@@ -75,6 +75,6 @@ public class ProductListing implements Parcelable, LoadFromJsonInterface<Product
 
     private ProductListing(Parcel in)
     {
-        this.products = in.readTypedObject(Product.CREATOR);
+        this.products = in.readTypedList(Product.CREATOR);
     }
 }

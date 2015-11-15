@@ -1,5 +1,8 @@
 package org.npc.test.api.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.ParseException;
@@ -14,7 +17,7 @@ import org.npc.test.api.interfaces.ConvertToJsonInterface;
 import org.npc.test.api.interfaces.LoadFromJsonInterface;
 import org.npc.test.api.models.fieldnames.ProductFieldNames;
 
-public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Product> {
+public class Product implements Parcelable, ConvertToJsonInterface, LoadFromJsonInterface<Product> {
     private UUID id;
     public UUID getId() {
         return this.id;
@@ -150,6 +153,55 @@ public class Product implements ConvertToJsonInterface, LoadFromJsonInterface<Pr
         return jsonObject;
     }
 
+    public int describeContents()
+    {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel out, int flags)
+    {
+        out.writeString(this.id.toString());
+        out.writeString(this.lookupCode);
+        out.writeString(this.description);
+        out.writeString(Boolean.toString(isActive));
+        out.writeDouble(this.price);
+        out.writeInt(this.count);
+        out.writeString((new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")).format(this.createdOn));
+        out.writeString(this.apiRequestStatus.name());
+        out.writeString(this.apiRequestMessage);
+    }
+
+    public static final Parcelable.Creator<Product> CREATOR = new Parcelable.Creator<Product>()
+    {
+        public Product createFromParcel(Parcel in)
+        {
+            return new Product(in);
+        }
+
+        public Product[] newArray(int size)
+        {
+            return new Product[size];
+        }
+    };
+
+    private Product(Parcel in)
+    {
+        this.id = UUID.fromString(in.readString());
+        this.lookupCode = in.readString();
+        this.description = in.readString();
+        this.isActive = in.readString().equals("true");
+        this.price = in.readDouble();
+        this.count = in.readInt();
+
+        try {
+            this.createdOn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(in.readString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        this.apiRequestStatus = ProductApiRequestStatus.mapName(in.readString());
+        this.apiRequestMessage = in.readString();
+    }
     public Product() {
         this.count = -1;
         this.lookupCode = "";

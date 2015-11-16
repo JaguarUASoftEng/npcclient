@@ -24,7 +24,7 @@ public class SearchProducts extends AppCompatActivity {
         {
             if (resultCode == RESULT_OK)
             {
-                transaction = data.getParcelableExtra();
+                Transaction transaction = data.getParcelableExtra();
                 this.updateProductList(transaction);
 
             }
@@ -41,7 +41,7 @@ public class SearchProducts extends AppCompatActivity {
     public void updateProductList(Transaction transaction)
     {
         ListView list = (ListView) this.findViewById(R.id.products_list_view);
-        ProductListAdapter adapter = new ProductListAdapter(this, transaction.getProducts());
+        ProductListAdapter adapter = new ProductListAdapter(this, transaction.getProductListing().getProducts());
         list.setAdapter(adapter);
     }
 }

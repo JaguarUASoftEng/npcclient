@@ -12,6 +12,7 @@ import org.npc.test.adapters.ProductListAdapter;
 public class SearchProducts extends AppCompatActivity {
 
     static final int UPDATE_PRODUCTS = 0;
+    Transaction transaction;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,8 +25,8 @@ public class SearchProducts extends AppCompatActivity {
         {
             if (resultCode == RESULT_OK)
             {
-                Transaction transaction = data.getParcelableExtra();
-                this.updateProductList(transaction);
+                this.transaction = data.getParcelableExtra();
+                this.updateProductList();
 
             }
         }
@@ -38,10 +39,17 @@ public class SearchProducts extends AppCompatActivity {
         this.startActivityForResult(intent.putExtra(this.getResources().getString(R.string.product_id_extras_key), query),UPDATE_PRODUCTS);
     }
 
-    public void updateProductList(Transaction transaction)
+    public void searchProductBackButtonOnClick(View view)
+    {
+        Intent intent = new Intent();
+        intent.putExtra(this.getResources().getString(R.string.transaction_extras_key),this.transaction);
+        setResult(0, intent);
+    }
+
+    public void updateProductList()
     {
         ListView list = (ListView) this.findViewById(R.id.products_list_view);
-        ProductListAdapter adapter = new ProductListAdapter(this, transaction.getProductListing().getProducts());
+        ProductListAdapter adapter = new ProductListAdapter(this, this.transaction.getProductListing().getProducts());
         list.setAdapter(adapter);
     }
 }

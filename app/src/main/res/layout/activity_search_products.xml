@@ -26,6 +26,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/productList"
         android:layout_below="@+id/productSearchButton"
+        android:layout_above="@id/productSeachBackButton"
         android:layout_alignParentStart="false" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_back"
+        android:id="@+id/productSeachBackButton"
+        android:layout_alignParentBottom="true"
+        android:onClick="searchProductBackButtonOnClick" />
 
 </RelativeLayout>

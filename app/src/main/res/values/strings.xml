@@ -7,12 +7,14 @@
     <string name="button_create_product">Create Product</string>
     <string name="button_search_products">Search Products</string>
     <string name="button_create_dummy_product">Create Dummy Product</string>
+    <string name="button_back">Back</string>
     <string name="label_product_lookup_code">Lookup Code — </string>
     <string name="label_product_description">Description — </string>
     <string name="label_product_price">Price — </string>
     <string name="label_product_quantity">Quantity — </string>
     <string name="label_product_isActive">Active — </string>
     <string name="product_id_extras_key">org.npc.test.ProductIdExtrasKey</string>
+    <string name="transaction_extras_key">org.npc.test.TransactionExtrasKey</string>
     <string name="title_activity_product_details">Product Details</string>
     <string name="title_activity_products_list">ProductsList</string>
     <string name="title_activity_create_product">CreateProduct</string>

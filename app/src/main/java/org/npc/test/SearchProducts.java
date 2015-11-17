@@ -17,6 +17,7 @@ public class SearchProducts extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_products);
+        this.transaction = this.getIntent().getStringExtra(this.getResources().getString());
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data)

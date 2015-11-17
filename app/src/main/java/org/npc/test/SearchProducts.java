@@ -9,6 +9,7 @@ import android.widget.ListView;
 import org.npc.test.api.models.Transaction;
 import org.npc.test.adapters.ProductListAdapter;
 
+//test
 public class SearchProducts extends AppCompatActivity {
 
     static final int UPDATE_PRODUCTS = 0;

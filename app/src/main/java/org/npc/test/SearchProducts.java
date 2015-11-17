@@ -44,6 +44,7 @@ public class SearchProducts extends AppCompatActivity {
         Intent intent = new Intent();
         intent.putExtra(this.getResources().getString(R.string.transaction_extras_key),this.transaction);
         setResult(0, intent);
+        this.finish();
     }
 
     public void updateProductList()

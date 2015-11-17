@@ -38,9 +38,7 @@ public class TestActivity extends AppCompatActivity {
 	}
 
 	public void viewProductsButtonOnClick(View view) {
-		this.startActivity(
-			new Intent(this, ProductsList.class)
-		);
+		this.startActivity(new Intent(this, ProductsList.class));
 	}
 
 	public void createProductButtonOnClick(View view) {

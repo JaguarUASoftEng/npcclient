@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Add Product"
+        android:id="@+id/AddProductButton"
+        android:layout_marginTop="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="AddProductButtonOnClick" />
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Make Payment"
+        android:id="@+id/MakePaymentButton"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/AddProductButton"
+        android:layout_alignLeft="@+id/AddProductButton"
+        android:layout_alignStart="@+id/AddProductButton"
+        android:onClick="MakePaymentButtonOnClick" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Complete Transaction"
+        android:id="@+id/CompleteTransactionButton"
+        android:layout_marginBottom="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="CompleteTransactionButtonOnClick" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TransactionTotalTextField"
+        android:layout_below="@+id/MakePaymentButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:text="Transaction Total: $" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/PaymentTotalTextField"
+        android:layout_below="@+id/TransactionTotalTextField"
+        android:layout_centerHorizontal="true"
+        android:text="Payment Total: $" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/RemainingBalanceTextField"
+        android:layout_below="@+id/PaymentTotalTextField"
+        android:layout_centerHorizontal="true"
+        android:text="Remaining Balance: $" />
+
+</RelativeLayout>

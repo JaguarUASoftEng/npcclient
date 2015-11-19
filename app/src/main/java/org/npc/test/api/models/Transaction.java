@@ -21,6 +21,17 @@ public class Transaction implements Parcelable
         this.total = in.readDouble();
     }
 
+    public void addProduct(Product p)
+    {
+        this.products.addProduct(p);
+        this.total += p.getPrice();
+    }
+
+    public double getTotal()
+    {
+        return this.total;
+    }
+
     public int describeContents()
     {
         return 0;

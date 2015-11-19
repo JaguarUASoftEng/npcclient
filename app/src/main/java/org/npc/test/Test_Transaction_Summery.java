@@ -41,6 +41,6 @@ public class Test_Transaction_Summery extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         this.transaction = data.getParcelableExtra("org.npc.test.TransactionExtrasKey");
-        this.getPriceTextView().append(Double.toString(transaction.getPrice()));
+        this.getPriceTextView().append(Double.toString(transaction.getTotal()));
     }
 }

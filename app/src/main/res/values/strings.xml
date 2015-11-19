@@ -20,6 +20,7 @@
     <string name="title_activity_product_details">Product Details</string>
     <string name="title_activity_products_list">ProductsList</string>
     <string name="title_activity_create_product">CreateProduct</string>
+    <string name="title_activity_test_transaction_summary">TestTransactionSummary</string>
     <string name="title_activity_search_products">SearchProduct</string>
     <string name="product_save_alert_dialog_title">Product</string>
     <string name="product_save_failure">There was an issue saving the product</string>

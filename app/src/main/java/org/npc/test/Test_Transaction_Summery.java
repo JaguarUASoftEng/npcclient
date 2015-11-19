@@ -38,9 +38,13 @@ public class Test_Transaction_Summery extends AppCompatActivity {
     {
         return (TextView) this.findViewById(R.id.PaymentTotalTextField);
     }
-
-    public void CompleteTransactionButtonOnClick(View view){
-        this.startActivity(new Intent(this, SearchProducts.class));
+        
+    public void CompleteTransactionButtonOnClick(View view)
+    {
+        //Intent intent = new Intent();
+        //intent.putExtra(this.getResources().getString(R.string.transaction_extras_key), this.transaction);
+        //this.startActivity(new Intent(this, SearchProducts.class));
+        this.finish();
     }
 
     @Override

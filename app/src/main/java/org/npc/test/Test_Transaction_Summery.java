@@ -19,7 +19,7 @@ public class Test_Transaction_Summery extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_Summary);
+        setContentView(R.layout.activity_test_summary);
     }
 
     public void AddProductButtonOnClick(View view) {
@@ -43,8 +43,12 @@ public class Test_Transaction_Summery extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        this.transaction = data.getParcelableExtra("org.npc.test.TransactionExtrasKey");
-        this.getPriceTextView().append(Double.toString(transaction.getTotal()));
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == Test_Transaction_Summery.ADD_PRODUCT && resultCode == 0)
+        {
+            this.transaction = data.getParcelableExtra("org.npc.test.TransactionExtrasKey");
+            this.getPriceTextView().append(Double.toString(transaction.getTotal()));
+        }
     }
 }

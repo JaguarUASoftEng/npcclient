@@ -18,7 +18,8 @@ public class SearchProducts extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_products);
-        this.transaction = this.getIntent().getStringExtra(this.getResources().getString());
+        this.transaction = this.getIntent().getParcelableExtra(this.getResources().getString(
+                R.string.summary_search_transaction_extras_key));
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -27,7 +28,8 @@ public class SearchProducts extends AppCompatActivity {
         {
             if (resultCode == RESULT_OK)
             {
-                this.transaction = data.getParcelableExtra();
+                this.transaction = data.getParcelableExtra(this.getResources().getString(
+                        R.string.search_details_transaction_extras_key));
                 this.updateProductList();
 
             }

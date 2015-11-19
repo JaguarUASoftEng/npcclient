@@ -20,6 +20,7 @@ public class Test_Transaction_Summery extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_summary);
+        this.transaction = new Transaction();
     }
 
     public void AddProductButtonOnClick(View view) {

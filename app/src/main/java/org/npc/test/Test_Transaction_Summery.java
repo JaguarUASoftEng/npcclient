@@ -13,6 +13,7 @@ import org.npc.test.api.models.Transaction;
  */
 public class Test_Transaction_Summery extends AppCompatActivity {
 
+    static final int ADD_PRODUCT = 0;
     Transaction transaction;
 
     @Override
@@ -22,7 +23,10 @@ public class Test_Transaction_Summery extends AppCompatActivity {
     }
 
     public void AddProductButtonOnClick(View view) {
-        this.startActivity(new Intent(this, ProductsList.class));
+        Intent intent = new Intent(this, SearchProducts.class);
+        intent.putExtra(this.getResources().getString(R.string.summary_search_transaction_extras_key),
+                this.transaction);
+        this.startActivityForResult(intent, Test_Transaction_Summery.ADD_PRODUCT);
     }
 
     public void MakePaymentButtonOnClick(View view) {

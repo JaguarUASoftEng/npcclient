@@ -44,7 +44,7 @@ public class SearchProducts extends AppCompatActivity {
     public void searchProductBackButtonOnClick(View view)
     {
         Intent intent = new Intent();
-        intent.putExtra(this.getResources().getString(R.string.transaction_extras_key),this.transaction);
+        intent.putExtra(this.getResources().getString(R.string.search_details_transaction_extras_key),this.transaction);
         setResult(0, intent);
         this.finish();
     }

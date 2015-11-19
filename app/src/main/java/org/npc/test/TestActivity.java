@@ -37,17 +37,7 @@ public class TestActivity extends AppCompatActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void viewProductsButtonOnClick(View view) {
-		this.startActivity(new Intent(this, ProductsList.class));
-	}
-
-	public void createProductButtonOnClick(View view) {
-		this.startActivity(
-			new Intent(this, CreateProduct.class)
-		);
-	}
-
-	public void searchProductButtonOnClick(View view){
-		this.startActivity(new Intent(this, SearchProducts.class));
+	public void beginTransactionButtonOnClick(View view){
+		this.startActivity(new Intent(this, Test_Transaction_Summery.class));
 	}
 }

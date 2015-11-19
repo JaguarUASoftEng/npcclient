@@ -1,49 +1,16 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     tools:context="org.npc.test.TestActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_weight="1"
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="5dp">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="@string/button_view_products"
-            android:onClick="viewProductsButtonOnClick"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_search_products"
-            android:onClick="searchProductButtonOnClick"
-            android:layout_gravity="bottom" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="5dp">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:text="@string/button_create_product"
-            android:onClick="createProductButtonOnClick"/>
-    </LinearLayout>
-
-</LinearLayout>
+        android:text="@string/button_begin_transaction"
+        android:id="@+id/test_button_begin_transaction"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="beginTransactionButtonOnClick" />
+</RelativeLayout>

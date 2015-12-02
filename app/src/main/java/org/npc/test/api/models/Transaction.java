@@ -2,34 +2,46 @@ package org.npc.test.api.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import java.util.ArrayList;
 
 
 public class Transaction implements Parcelable
 {
-    private ProductListing products;
-    private double total;
+    private ArrayList<Product> products;
 
     public Transaction()
     {
-        this.products = new ProductListing();
-        this.total = 0;
+        this.products = new ArrayList<>();
     }
 
     private Transaction(Parcel in)
     {
-        this.products = in.readTypedObject(ProductListing.CREATOR);
-        this.total = in.readDouble();
+        this.products = in.createTypedArrayList(Product.CREATOR);
     }
 
-    public void addProduct(Product p)
+    public void addProduct(Product newProduct)
     {
-        this.products.addProduct(p);
-        this.total += p.getPrice();
+        for (Product p : this.products)
+        {
+            if (p.getId().compareTo(newProduct.getId()) == 0)
+            {
+                p.setCount(p.getCount() + 1);
+                return;
+            }
+        }
+        this.products.add(newProduct);
+        return;
     }
 
     public double getTotal()
     {
-        return this.total;
+        double total = 0;
+        for (Product p : this.products)
+        {
+            total += p.getCount() * p.getPrice();
+        }
+
+        return total;
     }
 
     public int describeContents()
@@ -39,8 +51,7 @@ public class Transaction implements Parcelable
 
     public void writeToParcel(Parcel out, int flags)
     {
-        out.writeTypedObject(products, 0);
-        out.writeDouble(this.total);
+        out.writeTypedList(products);
     }
 
     public static final Parcelable.Creator<Transaction> CREATOR = new Parcelable.Creator<Transaction>()
@@ -49,14 +60,13 @@ public class Transaction implements Parcelable
         {
             return new Transaction(in);
         }
-
         public Transaction[] newArray(int size)
         {
             return new Transaction[size];
         }
     };
 
-    public ProductListing getProductListing()
+    public ArrayList getProducts()
     {
         return this.products;
     }

@@ -9,7 +9,6 @@ import android.widget.ListView;
 import org.npc.test.api.models.Transaction;
 import org.npc.test.adapters.ProductListAdapter;
 
-//test
 public class SearchProducts extends AppCompatActivity {
 
     static final int UPDATE_PRODUCTS = 0;
@@ -31,7 +30,6 @@ public class SearchProducts extends AppCompatActivity {
                 this.transaction = data.getParcelableExtra(this.getResources().getString(
                         R.string.search_details_transaction_extras_key));
                 this.updateProductList();
-
             }
         }
     }
@@ -54,7 +52,7 @@ public class SearchProducts extends AppCompatActivity {
     public void updateProductList()
     {
         ListView list = (ListView) this.findViewById(R.id.products_list_view);
-        ProductListAdapter adapter = new ProductListAdapter(this, this.transaction.getProductListing().getProducts());
+        ProductListAdapter adapter = new ProductListAdapter(this, this.transaction.getProducts());
         list.setAdapter(adapter);
     }
 }

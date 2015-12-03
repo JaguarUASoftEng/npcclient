@@ -208,7 +208,7 @@ public class Product implements Parcelable, ConvertToJsonInterface, LoadFromJson
         this.description = "testDescription";
         this.isActive = false;
         this.price = -1.0;
-        this.count = -1;
+        this.count = 1;
         this.createdOn = new Date();
         this.apiRequestMessage = StringUtils.EMPTY;
         this.apiRequestStatus = ProductApiRequestStatus.OK;

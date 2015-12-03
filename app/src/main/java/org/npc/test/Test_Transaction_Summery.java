@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
-
 import org.npc.test.api.models.Transaction;
 
 /**
@@ -52,8 +51,8 @@ public class Test_Transaction_Summery extends AppCompatActivity {
     {
         if (requestCode == Test_Transaction_Summery.ADD_PRODUCT && resultCode == 0)
         {
-            this.transaction = data.getParcelableExtra("org.npc.test.TransactionExtrasKey");
-            this.getPriceTextView().append(Double.toString(transaction.getTotal()));
+            this.transaction = data.getParcelableExtra(this.getResources().getString(R.string.search_details_transaction_extras_key));
+            this.getPriceTextView().append(Double.toString(this.transaction.getTotal()));
         }
     }
 }

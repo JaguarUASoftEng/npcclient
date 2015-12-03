@@ -5,22 +5,29 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
-
+import android.view.View;
+import android.content.Intent;
+import android.widget.EditText;
 import org.npc.test.api.enums.ProductApiRequestStatus;
 import org.npc.test.api.models.Product;
 import org.npc.test.api.services.ProductService;
+import org.npc.test.api.models.Transaction;
 
 public class ProductDetails extends AppCompatActivity {
+
+    Transaction transaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
+        this.transaction = this.getIntent().getParcelableExtra(this.getResources().getString(
+                R.string.product_id_extras_key));
 
         this.productLookupCode =
-            this.getIntent().getStringExtra(
-                this.getResources().getString(R.string.product_id_extras_key)
-        );
+                this.getIntent().getStringExtra(
+                        this.getResources().getString(R.string.product_id_extras_key)
+                );
     }
 
     @Override
@@ -67,6 +74,23 @@ public class ProductDetails extends AppCompatActivity {
     private TextView getIsActiveTextView()
     {
         return (TextView) this.findViewById(R.id.product_isActive_text_view);
+    }
+
+    public void ProductDetailsCancelButtonOnClick(View view)
+    {
+        Intent intent = new Intent();
+        intent.putExtra(this.getResources().getString(R.string.search_details_transaction_extras_key),this.transaction);
+        setResult(0, intent);
+        this.finish();
+    }
+
+    public void ProductDetailsAddButtonOnClick(View view)
+    {
+        Intent intent = new Intent();
+        EditText Amount = (EditText) this.findViewById(R.id.Amount_To_Add_Box);
+        String query = Amount.getText().toString();
+        intent.putExtra(this.getResources().getString(R.string.search_details_transaction_extras_key),this.transaction);
+        this.finish();
     }
 
     private String productLookupCode;

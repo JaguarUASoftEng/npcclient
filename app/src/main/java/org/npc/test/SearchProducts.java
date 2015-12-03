@@ -19,6 +19,7 @@ public class SearchProducts extends AppCompatActivity {
         setContentView(R.layout.activity_search_products);
         this.transaction = this.getIntent().getParcelableExtra(this.getResources().getString(
                 R.string.summary_search_transaction_extras_key));
+        this.updateProductList();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -51,7 +52,7 @@ public class SearchProducts extends AppCompatActivity {
 
     public void updateProductList()
     {
-        ListView list = (ListView) this.findViewById(R.id.products_list_view);
+        ListView list = (ListView) this.findViewById(R.id.productList);
         ProductListAdapter adapter = new ProductListAdapter(this, this.transaction.getProducts());
         list.setAdapter(adapter);
     }

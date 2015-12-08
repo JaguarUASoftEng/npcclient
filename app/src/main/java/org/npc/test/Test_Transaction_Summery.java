@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import org.npc.test.api.models.Product;
 import org.npc.test.api.models.Transaction;
+import java.util.UUID;
 
 /**
  * Created by nfrancav on 11/17/2015.
@@ -20,6 +22,20 @@ public class Test_Transaction_Summery extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_summary);
         this.transaction = new Transaction();
+
+//        Dummy product initialization
+//        Product p1 = new Product();
+//        Product p2 = new Product();
+//        p1.setId(UUID.randomUUID());
+//        p1.setCount(3);
+//        p1.setDescription("Vitamin X");
+//        p1.setPrice(4.0);
+//        p2.setId(UUID.randomUUID());
+//        p2.setCount(6);
+//        p2.setDescription("Supplement Y");
+//        p2.setPrice(2.0);
+//        this.transaction.addProduct(p1);
+//        this.transaction.addProduct(p2);
     }
 
     public void AddProductButtonOnClick(View view) {

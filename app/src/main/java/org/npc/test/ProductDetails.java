@@ -89,7 +89,7 @@ public class ProductDetails extends AppCompatActivity {
         Intent intent = new Intent();
         EditText Amount = (EditText) this.findViewById(R.id.Amount_To_Add_Box);
         String query = Amount.getText().toString();
-        intent.putExtra(this.getResources().getString(R.string.search_details_transaction_extras_key),this.transaction, query);
+        intent.putExtra(this.getResources().getString(R.string.search_details_transaction_extras_key), query);
         this.finish();
     }
 

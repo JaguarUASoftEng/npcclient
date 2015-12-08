@@ -135,7 +135,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="false"
             android:layout_marginLeft="50dp"
-            android:layout_marginStart="50dp" />
+            android:layout_marginStart="50dp"
+            android:onClick="ProductDetailsCancelButtonOnClick" />
 
         <Button
             android:layout_width="wrap_content"
@@ -147,7 +148,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/CancelButton"
-            android:layout_alignBottom="@+id/CancelButton" />
+            android:layout_alignBottom="@+id/CancelButton"
+            android:onClick="ProductDetailsAddButtonOnClick" />
     </RelativeLayout>
 
 </LinearLayout>

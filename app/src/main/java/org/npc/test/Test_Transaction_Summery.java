@@ -1,13 +1,25 @@
 package org.npc.test;
 
 import android.content.Intent;
-import android.os.Bundle;
+import android.os.*;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.TextView;
-import org.npc.test.api.models.Product;
-import org.npc.test.api.models.Transaction;
+import android.view.*;
+import android.widget.*;
+import org.npc.test.api.models.*;
 import java.util.UUID;
+import java.lang.Object;
+import java.net.URLConnection;
+import java.net.HttpURLConnection;
+import org.json.JSONObject;
+import java.net.URL;
+import java.io.OutputStreamWriter;
+import java.io.InputStream;
+import java.io.BufferedReader;
+import org.json.JSONException;
+import java.io.IOException;
+import android.util.Log;
+import java.io.InputStreamReader;
+import org.json.JSONArray;
 
 /**
  * Created by nfrancav on 11/17/2015.
@@ -53,14 +65,6 @@ public class Test_Transaction_Summery extends AppCompatActivity {
     {
         return (TextView) this.findViewById(R.id.PaymentTotalTextField);
     }
-        
-    public void CompleteTransactionButtonOnClick(View view)
-    {
-        //Intent intent = new Intent();
-        //intent.putExtra(this.getResources().getString(R.string.transaction_extras_key), this.transaction);
-        //this.startActivity(new Intent(this, SearchProducts.class));
-        this.finish();
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -71,4 +75,80 @@ public class Test_Transaction_Summery extends AppCompatActivity {
             this.getPriceTextView().append(Double.toString(this.transaction.getTotal()));
         }
     }
+
+
+    public void CompleteTransactionButtonOnClick(View view)
+    {
+        this.finish();
+    }
+
+    public JSONObject toJSon() {
+        try {
+            JSONObject jsonObj = new JSONObject();
+            JSONArray jsonArr = new JSONArray();
+
+            for (Product pn : this.transaction.getProducts()) {
+                JSONObject pnObj = new JSONObject();
+                pnObj.put("UUID", pn.getId());
+                pnObj.put("LookupCode", pn.getLookupCode());
+                pnObj.put("Price", pn.getPrice());
+                pnObj.put("Description", pn.getDescription());
+                pnObj.put("IsActive", pn.getIsActive());
+                pnObj.put("Count", pn.getCount());
+                pnObj.put("CreatedOn", pn.getCreatedOn());
+                pnObj.put("ApiRequestMessage", pn.getApiRequestMessage());
+                pnObj.put("ApiRequestStatus", pn.getApiRequestStatus());
+                pnObj.put("Class", pn.getClass());
+                jsonArr.put(pnObj);
+            }
+            jsonObj.put("JsonProductList", jsonArr);
+            return jsonObj;
+        }
+        catch(JSONException ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
+    }
+
+    String destination = "http://localhost:8080/registerservice/apiv0/transactionEntry";
+    JSONObject request =  toJSon();
+
+    protected JSONObject doInBackground(Void... params)  {
+        try {
+            URL url = new URL(destination);
+            HttpURLConnection client = (HttpURLConnection) url.openConnection();
+            client.setDoOutput(true);
+            client.setDoInput(true);
+            client.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            client.setRequestMethod("PUT");
+            client.connect();
+
+            Log.d("doInBackground(Request)", request.toString());
+
+            OutputStreamWriter writer = new OutputStreamWriter(client.getOutputStream());
+            String output = request.toString();
+            writer.write(output);
+            writer.flush();
+            writer.close();
+            client.disconnect();
+
+            /*InputStream input = client.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+            StringBuilder result = new StringBuilder();
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                result.append(line);
+            }
+            Log.d("doInBackground(Resp)", result.toString());
+            response = new JSONObject(result.toString());
+        } catch (JSONException e){
+            e.printStackTrace();*/
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return request;
+    }
+
 }

@@ -6,11 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.*;
 import android.widget.*;
 import org.npc.test.api.models.*;
-
 import java.util.ArrayList;
 import java.util.UUID;
-import java.lang.Object;
-import java.net.URLConnection;
 import java.net.HttpURLConnection;
 import org.json.JSONObject;
 import java.net.URL;
@@ -22,11 +19,6 @@ import java.io.IOException;
 import android.util.Log;
 import java.io.InputStreamReader;
 import org.json.JSONArray;
-import android.net.NetworkInfo;
-import java.lang.Object;
-import android.nfc.tech.TagTechnology;
-
-
 
 /**
  * Created by nfrancav on 11/17/2015.
@@ -60,8 +52,6 @@ public class Test_Transaction_Summery extends AppCompatActivity implements View.
         MakePaymentButton.setOnClickListener(this);
         CompleteTransactionButton.setOnClickListener(this);
 
-
-    //    Dummy product initialization
         Product p1 = new Product();
         Product p2 = new Product();
         p1.setId(UUID.randomUUID());
@@ -79,15 +69,9 @@ public class Test_Transaction_Summery extends AppCompatActivity implements View.
     @Override
     public void onClick(View view)
     {
-
         switch(view.getId())
         {
             case R.id.CompleteTransactionButton:
-               /* if(!validate())
-                {
-                    Toast.makeText(getBaseContext(), "Enter some data!", Toast.LENGTH_LONG).show();
-                }*/
-
                 new HttpAsyncTask().execute();
                 this.finish();
                 break;
@@ -96,12 +80,10 @@ public class Test_Transaction_Summery extends AppCompatActivity implements View.
                 break;
             case R.id.AddProductButton:
                 Intent intent = new Intent(this, SearchProducts.class);
-                intent.putExtra(this.getResources().getString(R.string.summary_search_transaction_extras_key),
-                        this.transaction);
+                intent.putExtra(this.getResources().getString(R.string.summary_search_transaction_extras_key), this.transaction);
                 this.startActivityForResult(intent, Test_Transaction_Summery.ADD_PRODUCT);
                 break;
         }
-
     }
 
     @Override
@@ -110,30 +92,20 @@ public class Test_Transaction_Summery extends AppCompatActivity implements View.
         if (requestCode == Test_Transaction_Summery.ADD_PRODUCT && resultCode == 0)
         {
             this.transaction = data.getParcelableExtra(this.getResources().getString(R.string.search_details_transaction_extras_key));
-            this.getPriceTextView().append(Double.toString(this.transaction.getTotal()));
+            this.getPriceTextView().setText("Transaction Total: " + Double.toString(this.transaction.getTotal()));
+            this.getRemainingBalanceTextField().setText("Remaining Balance Total: " + Double.toString(this.transaction.getTotal()));
         }
     }
 
-   /* public void AddProductButtonOnClick(View view) {
-        Intent intent = new Intent(this, SearchProducts.class);
-        intent.putExtra(this.getResources().getString(R.string.summary_search_transaction_extras_key),
-                this.transaction);
-        this.startActivityForResult(intent, Test_Transaction_Summery.ADD_PRODUCT);
-    }
-
-    public void MakePaymentButtonOnClick(View view) {
-        this.startActivity(new Intent(this, CreateProduct.class));
-    }*/
-
     private TextView getPriceTextView()
     {
-        return (TextView) this.findViewById(R.id.PaymentTotalTextField);
+        return (TextView) this.findViewById(R.id.TransactionTotalTextField);
     }
 
-    /*public void CompleteTransactionButtonOnClick(View view)
+    private TextView getRemainingBalanceTextField()
     {
-        this.finish();
-    }*/
+        return (TextView) this.findViewById(R.id.RemainingBalanceTextField);
+    }
 
     public JSONObject toJSon()
     {
@@ -143,7 +115,7 @@ public class Test_Transaction_Summery extends AppCompatActivity implements View.
             JSONArray jsonArr = new JSONArray();
             Product pn;
             ArrayList<Product> pro;
-            pro = this.transaction.getProducts();
+            pro = (this.transaction.getProducts());
 
             for ( int i = 0; i < pro.size(); i++)
             {
@@ -164,7 +136,6 @@ public class Test_Transaction_Summery extends AppCompatActivity implements View.
             }
 
             jsonObj.put("JsonProductList", jsonArr);
-
             return jsonObj;
         }
         catch(JSONException ex)
@@ -174,16 +145,6 @@ public class Test_Transaction_Summery extends AppCompatActivity implements View.
 
         return null;
     }
-
-  /*  private boolean validate()
-    {
-        if(TransactionTotalTextField.getText().toString().trim().equals(""))
-            return false;
-        else if(RemainingBalanceTextField.getText().toString().trim().equals(""))
-            return false;
-        else
-            return true;
-    }*/
 
     private class HttpAsyncTask extends AsyncTask<Void, Void, JSONObject>
     {
@@ -195,8 +156,8 @@ public class Test_Transaction_Summery extends AppCompatActivity implements View.
             HttpURLConnection client = null;
             JSONObject response = null;
 
-
-            try {
+            try
+            {
                 URL url = new URL(destination);
                 client = (HttpURLConnection) url.openConnection();
                 client.setDoOutput(true);
@@ -226,10 +187,18 @@ public class Test_Transaction_Summery extends AppCompatActivity implements View.
                 Log.d("doInBackground(Resp)", result.toString());
                 response = new JSONObject(result.toString());
             }
-
-            catch (JSONException e) { e.printStackTrace(); }
-            catch (IOException e) { e.printStackTrace(); }
-            finally { client.disconnect(); }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            finally
+            {
+                client.disconnect();
+            }
 
             return response;
         }

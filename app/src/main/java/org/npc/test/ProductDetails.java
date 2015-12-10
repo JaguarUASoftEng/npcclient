@@ -22,7 +22,7 @@ public class ProductDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
         this.transaction = this.getIntent().getParcelableExtra(this.getResources().getString(
-                R.string.product_id_extras_key));
+                R.string.search_details_transaction_extras_key));
 
         this.productLookupCode =
                 this.getIntent().getStringExtra(

@@ -107,7 +107,7 @@ public class Test_Transaction_Summery extends AppCompatActivity implements View.
         return (TextView) this.findViewById(R.id.RemainingBalanceTextField);
     }
 
-    public JSONObject toJSon()
+    public JSONArray toJSon()
     {
         try
         {
@@ -135,8 +135,8 @@ public class Test_Transaction_Summery extends AppCompatActivity implements View.
                 jsonArr.put(pnObj);
             }
 
-            jsonObj.put("JsonProductList", jsonArr);
-            return jsonObj;
+            //jsonObj.put("JsonProductList", jsonArr);
+            return jsonArr;
         }
         catch(JSONException ex)
         {
@@ -152,10 +152,16 @@ public class Test_Transaction_Summery extends AppCompatActivity implements View.
         protected JSONObject doInBackground(Void... params)
         {
             String destination = "http://10.0.2.2:8080/com.npc.registerservice/apiv0/transactionEntry";
-            JSONObject request =  toJSon();
+            //JSONObject request =  toJSon();
+            JSONArray request = toJSon();
             HttpURLConnection client = null;
             JSONObject response = null;
 
+
+
+
+
+            
             try
             {
                 URL url = new URL(destination);

@@ -190,7 +190,7 @@ public class Test_Transaction_Summery extends AppCompatActivity implements View.
         @Override
         protected JSONObject doInBackground(Void... params)
         {
-            String destination = "http://localhost:8080/registerservice/apiv0/transactionEntry";
+            String destination = "http://10.0.2.2:8080/com.npc.registerservice/apiv0/transactionEntry";
             JSONObject request =  toJSon();
             HttpURLConnection client = null;
             JSONObject response = null;

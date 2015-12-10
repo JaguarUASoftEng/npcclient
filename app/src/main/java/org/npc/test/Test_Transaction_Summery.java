@@ -61,19 +61,19 @@ public class Test_Transaction_Summery extends AppCompatActivity implements View.
         CompleteTransactionButton.setOnClickListener(this);
 
 
-//        Dummy product initialization
-//        Product p1 = new Product();
-//        Product p2 = new Product();
-//        p1.setId(UUID.randomUUID());
-//        p1.setCount(3);
-//        p1.setDescription("Vitamin X");
-//        p1.setPrice(4.0);
-//        p2.setId(UUID.randomUUID());
-//        p2.setCount(6);
-//        p2.setDescription("Supplement Y");
-//        p2.setPrice(2.0);
-//        this.transaction.addProduct(p1);
-//        this.transaction.addProduct(p2);
+    //    Dummy product initialization
+        Product p1 = new Product();
+        Product p2 = new Product();
+        p1.setId(UUID.randomUUID());
+        p1.setCount(3);
+        p1.setDescription("Vitamin X");
+        p1.setPrice(4.0);
+        p2.setId(UUID.randomUUID());
+        p2.setCount(6);
+        p2.setDescription("Supplement Y");
+        p2.setPrice(2.0);
+        this.transaction.addProduct(p1);
+        this.transaction.addProduct(p2);
     }
 
     @Override
@@ -83,10 +83,10 @@ public class Test_Transaction_Summery extends AppCompatActivity implements View.
         switch(view.getId())
         {
             case R.id.CompleteTransactionButton:
-                if(!validate())
+               /* if(!validate())
                 {
                     Toast.makeText(getBaseContext(), "Enter some data!", Toast.LENGTH_LONG).show();
-                }
+                }*/
 
                 new HttpAsyncTask().execute();
                 this.finish();
@@ -175,7 +175,7 @@ public class Test_Transaction_Summery extends AppCompatActivity implements View.
         return null;
     }
 
-    private boolean validate()
+  /*  private boolean validate()
     {
         if(TransactionTotalTextField.getText().toString().trim().equals(""))
             return false;
@@ -183,7 +183,7 @@ public class Test_Transaction_Summery extends AppCompatActivity implements View.
             return false;
         else
             return true;
-    }
+    }*/
 
     private class HttpAsyncTask extends AsyncTask<Void, Void, JSONObject>
     {

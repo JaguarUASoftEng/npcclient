@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.*;
 import android.widget.*;
 import org.npc.test.api.models.*;
+
+import java.util.ArrayList;
 import java.util.UUID;
 import java.lang.Object;
 import java.net.URLConnection;
@@ -20,20 +22,44 @@ import java.io.IOException;
 import android.util.Log;
 import java.io.InputStreamReader;
 import org.json.JSONArray;
+import android.net.NetworkInfo;
+import java.lang.Object;
+import android.nfc.tech.TagTechnology;
+
+
 
 /**
  * Created by nfrancav on 11/17/2015.
  */
-public class Test_Transaction_Summery extends AppCompatActivity {
+public class Test_Transaction_Summery extends AppCompatActivity implements View.OnClickListener {
 
     static final int ADD_PRODUCT = 0;
+
     Transaction transaction;
+    TextView TransactionTotalTextField;
+    TextView PaymentTotalTextField;
+    TextView RemainingBalanceTextField;
+    Button  AddProductButton;
+    Button MakePaymentButton;
+    Button CompleteTransactionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_summary);
         this.transaction = new Transaction();
+
+        TransactionTotalTextField = (TextView) findViewById(R.id.TransactionTotalTextField);
+        PaymentTotalTextField = (TextView) findViewById(R.id.PaymentTotalTextField);
+        RemainingBalanceTextField = (TextView) findViewById(R.id.RemainingBalanceTextField);
+        AddProductButton = (Button) findViewById(R.id.AddProductButton);
+        MakePaymentButton = (Button) findViewById(R.id.MakePaymentButton);
+        CompleteTransactionButton = (Button) findViewById(R.id.CompleteTransactionButton);
+
+        AddProductButton.setOnClickListener(this);
+        MakePaymentButton.setOnClickListener(this);
+        CompleteTransactionButton.setOnClickListener(this);
+
 
 //        Dummy product initialization
 //        Product p1 = new Product();
@@ -50,20 +76,32 @@ public class Test_Transaction_Summery extends AppCompatActivity {
 //        this.transaction.addProduct(p2);
     }
 
-    public void AddProductButtonOnClick(View view) {
-        Intent intent = new Intent(this, SearchProducts.class);
-        intent.putExtra(this.getResources().getString(R.string.summary_search_transaction_extras_key),
-                this.transaction);
-        this.startActivityForResult(intent, Test_Transaction_Summery.ADD_PRODUCT);
-    }
-
-    public void MakePaymentButtonOnClick(View view) {
-        this.startActivity(new Intent(this, CreateProduct.class));
-    }
-
-    private TextView getPriceTextView()
+    @Override
+    public void onClick(View view)
     {
-        return (TextView) this.findViewById(R.id.PaymentTotalTextField);
+
+        switch(view.getId())
+        {
+            case R.id.CompleteTransactionButton:
+                if(!validate())
+                {
+                    Toast.makeText(getBaseContext(), "Enter some data!", Toast.LENGTH_LONG).show();
+                }
+
+                new HttpAsyncTask().execute();
+                this.finish();
+                break;
+            case R.id.MakePaymentButton:
+                this.startActivity(new Intent(this, CreateProduct.class));
+                break;
+            case R.id.AddProductButton:
+                Intent intent = new Intent(this, SearchProducts.class);
+                intent.putExtra(this.getResources().getString(R.string.summary_search_transaction_extras_key),
+                        this.transaction);
+                this.startActivityForResult(intent, Test_Transaction_Summery.ADD_PRODUCT);
+                break;
+        }
+
     }
 
     @Override
@@ -76,19 +114,42 @@ public class Test_Transaction_Summery extends AppCompatActivity {
         }
     }
 
-
-    public void CompleteTransactionButtonOnClick(View view)
-    {
-        this.finish();
+   /* public void AddProductButtonOnClick(View view) {
+        Intent intent = new Intent(this, SearchProducts.class);
+        intent.putExtra(this.getResources().getString(R.string.summary_search_transaction_extras_key),
+                this.transaction);
+        this.startActivityForResult(intent, Test_Transaction_Summery.ADD_PRODUCT);
     }
 
-    public JSONObject toJSon() {
-        try {
+    public void MakePaymentButtonOnClick(View view) {
+        this.startActivity(new Intent(this, CreateProduct.class));
+    }*/
+
+    private TextView getPriceTextView()
+    {
+        return (TextView) this.findViewById(R.id.PaymentTotalTextField);
+    }
+
+    /*public void CompleteTransactionButtonOnClick(View view)
+    {
+        this.finish();
+    }*/
+
+    public JSONObject toJSon()
+    {
+        try
+        {
             JSONObject jsonObj = new JSONObject();
             JSONArray jsonArr = new JSONArray();
+            Product pn;
+            ArrayList<Product> pro;
+            pro = this.transaction.getProducts();
 
-            for (Product pn : this.transaction.getProducts()) {
+            for ( int i = 0; i < pro.size(); i++)
+            {
                 JSONObject pnObj = new JSONObject();
+                pn = pro.get(i);
+
                 pnObj.put("UUID", pn.getId());
                 pnObj.put("LookupCode", pn.getLookupCode());
                 pnObj.put("Price", pn.getPrice());
@@ -101,54 +162,76 @@ public class Test_Transaction_Summery extends AppCompatActivity {
                 pnObj.put("Class", pn.getClass());
                 jsonArr.put(pnObj);
             }
+
             jsonObj.put("JsonProductList", jsonArr);
+
             return jsonObj;
         }
-        catch(JSONException ex) {
+        catch(JSONException ex)
+        {
             ex.printStackTrace();
         }
 
         return null;
     }
 
-    String destination = "http://localhost:8080/registerservice/apiv0/transactionEntry";
-    JSONObject request =  toJSon();
-
-    protected JSONObject doInBackground(Void... params)  {
-        try {
-            URL url = new URL(destination);
-            HttpURLConnection client = (HttpURLConnection) url.openConnection();
-            client.setDoOutput(true);
-            client.setDoInput(true);
-            client.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            client.setRequestMethod("PUT");
-            client.connect();
-
-            Log.d("doInBackground(Request)", request.toString());
-
-            OutputStreamWriter writer = new OutputStreamWriter(client.getOutputStream());
-            String output = request.toString();
-            writer.write(output);
-            writer.flush();
-            writer.close();
-            client.disconnect();
-
-            /*InputStream input = client.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-            StringBuilder result = new StringBuilder();
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                result.append(line);
-            }
-            Log.d("doInBackground(Resp)", result.toString());
-            response = new JSONObject(result.toString());
-        } catch (JSONException e){
-            e.printStackTrace();*/
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return request;
+    private boolean validate()
+    {
+        if(TransactionTotalTextField.getText().toString().trim().equals(""))
+            return false;
+        else if(RemainingBalanceTextField.getText().toString().trim().equals(""))
+            return false;
+        else
+            return true;
     }
 
+    private class HttpAsyncTask extends AsyncTask<Void, Void, JSONObject>
+    {
+        @Override
+        protected JSONObject doInBackground(Void... params)
+        {
+            String destination = "http://localhost:8080/registerservice/apiv0/transactionEntry";
+            JSONObject request =  toJSon();
+            HttpURLConnection client = null;
+            JSONObject response = null;
+
+
+            try {
+                URL url = new URL(destination);
+                client = (HttpURLConnection) url.openConnection();
+                client.setDoOutput(true);
+                client.setDoInput(true);
+                client.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                client.setRequestMethod("PUT");
+                client.connect();
+
+                Log.d("doInBackground(Request)", request.toString());
+
+                OutputStreamWriter writer = new OutputStreamWriter(client.getOutputStream());
+                String output = request.toString();
+                writer.write(output);
+                writer.flush();
+                writer.close();
+
+                InputStream input = client.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                StringBuilder result = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null)
+                {
+                    result.append(line);
+                }
+
+                Log.d("doInBackground(Resp)", result.toString());
+                response = new JSONObject(result.toString());
+            }
+
+            catch (JSONException e) { e.printStackTrace(); }
+            catch (IOException e) { e.printStackTrace(); }
+            finally { client.disconnect(); }
+
+            return response;
+        }
+    }
 }
